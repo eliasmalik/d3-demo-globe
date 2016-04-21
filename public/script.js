@@ -11,6 +11,12 @@ const svg = d3.select('#first')
   .attr('background-color', 'black')
   .on('mousedown', mousedown)
 
+svg.append('svg:circle')
+  .attr('cx', RADIUS + 25)
+  .attr('cy', RADIUS + 25)
+  .attr('r', RADIUS)
+  .attr('fill', 'black')
+
 d3.select(window)
   .on('mouseup', mouseup)
   .on('mousemove', mousemove)
@@ -28,7 +34,7 @@ const circle = d3.geo.circle()
 
 let countries, storms
 
-d3.json('./countries.geo.json', (collection) => {
+d3.json('/public/countries.geo.json', (collection) => {
   countries = svg.selectAll('path')
     .data(collection.features)
     .enter()
@@ -59,7 +65,7 @@ d3.json('./countries.geo.json', (collection) => {
     'Wind(WMO) Percentile': (s) => +s,
   }
 
-  d3.csv('Allstorms.ibtracs_wmo.v03r08.csv', (d) => {
+  d3.csv('/public/Allstorms.ibtracs_wmo.v03r08.csv', (d) => {
     return Object.keys(d).reduce((acc, key) => {
       acc[key] = keyMap[key](d[key])
       return acc
